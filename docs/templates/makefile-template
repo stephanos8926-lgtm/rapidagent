@@ -1,0 +1,85 @@
+# ============================================================
+# Makefile for [PROJECT_NAME]
+# ============================================================
+
+PYTHON := python3
+UV := uv
+PROJECT_NAME := [PROJECT_NAME]
+PACKAGE_NAME := [package_name]
+TESTS_DIR := tests/
+SRC_DIR := src/
+
+.PHONY: help install format lint typing test coverage check clean pre-commit docs
+
+## help: Display this help message
+help:
+	@echo "Available targets:"
+	@echo "  install      - Install project and dev dependencies"
+	@echo "  format       - Format code with ruff"
+	@echo "  lint         - Run linter"
+	@echo "  typing       - Run type checker"
+	@echo "  test         - Run tests"
+	@echo "  coverage     - Run tests with coverage"
+	@echo "  check        - Run lint and test"
+	@echo "  clean        - Remove build artifacts and caches"
+	@echo "  pre-commit   - Run all pre-commit hooks"
+	@echo "  docs         - Build documentation"
+
+## install: Install project and dependencies
+install:
+	$(UV) pip install -e ".[dev,test,lint]"
+
+## format: Format code with ruff
+format:
+	$(PYTHON) -m ruff format $(SRC_DIR) $(TESTS_DIR)
+	$(PYTHON) -m ruff check --fix $(SRC_DIR) $(TESTS_DIR)
+
+## lint: Run linter
+lint:
+	$(PYTHON) -m ruff check $(SRC_DIR) $(TESTS_DIR)
+
+## typing: Run type checker
+typing:
+	$(PYTHON) -m mypy $(SRC_DIR) $(TESTS_DIR)
+
+## test: Run tests
+test:
+	$(PYTHON) -m pytest $(TESTS_DIR)
+
+## coverage: Run tests with coverage report
+coverage:
+	$(PYTHON) -m pytest $(TESTS_DIR) --cov=$(PACKAGE_NAME) --cov-report=term-missing --cov-fail-under=80
+
+## check: Run lint and test
+check: lint typing test
+
+## clean: Remove build artifacts and caches
+clean:
+	rm -rf .pytest_cache .mypy_cache .ruff_cache htmlcov coverage.xml .coverage
+	rm -rf build/ dist/ *.egg-info
+	find . -type d -name __pycache__ -exec rm -rf {} +
+	find . -type f -name "*.pyc" -delete
+
+## pre-commit: Run all pre-commit hooks
+pre-commit:
+	pre-commit run --all-files
+
+## docs: Build documentation
+docs:
+	$(PYTHON) -m sphinx.cmd.build -b html docs/source docs/build/html
+
+## dev: Interactive development shell
+dev:
+	$(UV) run $(PYTHON)
+
+## bump-patch: Bump patch version
+bump-patch:
+	$(UV) run semantic-release version --tag-type patch
+
+## bump-minor: Bump minor version
+bump-minor:
+	$(UV) run semantic-release version --tag-type minor
+
+## bump-major: Bump major version
+bump-major:
+	$(UV) run semantic-release version --tag-type major
