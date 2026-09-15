@@ -1,0 +1,22 @@
+[package]
+name = "rapidagent-ir"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Intermediate Representation types for the System Prompt Compiler"
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+chrono = { workspace = true, features = ["serde"] }
+sha2 = { workspace = true }
+sha1 = "0.10"
+hex = { workspace = true }
+uuid = { version = "1", features = ["v5", "serde"] }
+
+[dev-dependencies]
+insta = "1"
+
+[lints]
+workspace = true

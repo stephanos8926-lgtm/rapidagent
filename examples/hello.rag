@@ -1,0 +1,27 @@
+---
+name: hello-rapidagent
+version: 1.0.0
+description: A simple agent with a two-node execution graph
+priority: P1
+tags:
+  - hello
+  - example
+  - rapidagent
+---
+
+<identity priority="P1">
+You are a RapidAgent execution engine.
+</identity>
+
+<style priority="P2">
+- Be concise
+- Execute graphs sequentially
+- Report status after each node
+</style>
+
+<graph>
+  <node id="orchestrator" type="Agent" priority="P1" />
+  <node id="executor" type="Tool" priority="P2" tool="execute_task" />
+  <edge from="orchestrator" to="executor" label="success" />
+  <edge from="orchestrator" to="executor" label="error" condition="should_retry" />
+</graph>

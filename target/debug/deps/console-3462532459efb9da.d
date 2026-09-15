@@ -1,0 +1,12 @@
+/home/sysop/Workspaces/rapidagent/target/debug/deps/console-3462532459efb9da.d: /home/sysop/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.16.6/src/lib.rs /home/sysop/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.16.6/src/common_term.rs /home/sysop/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.16.6/src/kb.rs /home/sysop/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.16.6/src/term.rs /home/sysop/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.16.6/src/unix_term.rs /home/sysop/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.16.6/src/utils.rs
+
+/home/sysop/Workspaces/rapidagent/target/debug/deps/libconsole-3462532459efb9da.rlib: /home/sysop/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.16.6/src/lib.rs /home/sysop/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.16.6/src/common_term.rs /home/sysop/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.16.6/src/kb.rs /home/sysop/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.16.6/src/term.rs /home/sysop/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.16.6/src/unix_term.rs /home/sysop/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.16.6/src/utils.rs
+
+/home/sysop/Workspaces/rapidagent/target/debug/deps/libconsole-3462532459efb9da.rmeta: /home/sysop/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.16.6/src/lib.rs /home/sysop/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.16.6/src/common_term.rs /home/sysop/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.16.6/src/kb.rs /home/sysop/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.16.6/src/term.rs /home/sysop/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.16.6/src/unix_term.rs /home/sysop/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.16.6/src/utils.rs
+
+/home/sysop/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.16.6/src/lib.rs:
+/home/sysop/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.16.6/src/common_term.rs:
+/home/sysop/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.16.6/src/kb.rs:
+/home/sysop/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.16.6/src/term.rs:
+/home/sysop/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.16.6/src/unix_term.rs:
+/home/sysop/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.16.6/src/utils.rs:

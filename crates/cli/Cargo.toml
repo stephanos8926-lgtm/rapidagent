@@ -1,0 +1,22 @@
+[package]
+name = "syspro"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "RapidWebs System Prompt Compiler CLI"
+
+[[bin]]
+name = "syspro"
+path = "src/main.rs"
+
+[dependencies]
+rapidagent-core = { path = "../core" }
+rapidagent-ir = { path = "../ir" }
+rapidagent-renderer = { path = "../renderer" }
+rapidagent-security = { path = "../security" }
+rapidagent-versioning = { path = "../versioning" }
+
+clap = { workspace = true }
+anyhow = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }

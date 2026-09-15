@@ -1,0 +1,19 @@
+[package]
+name = "rapidagent-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Core lexer, parser, and optimizer for prompt compiler"
+
+[dependencies]
+rapidagent-ir = { path = "../ir" }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+serde_yaml = { workspace = true }
+regex = { workspace = true }
+chrono = { workspace = true }
+
+[lints]
+workspace = true

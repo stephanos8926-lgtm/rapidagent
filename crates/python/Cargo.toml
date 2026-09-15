@@ -1,0 +1,21 @@
+[package]
+name = "rapidagent-python"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Python bindings via PyO3"
+
+[lib]
+name = "syspro_compiler"
+crate-type = ["cdylib"]
+
+[dependencies]
+rapidagent-core = { path = "../core" }
+rapidagent-ir = { path = "../ir" }
+rapidagent-renderer = { path = "../renderer" }
+# pyo3 = { workspace = true, features = ["extension-module"] }  # Uncomment for Python bindings
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+[lints]
+workspace = true
