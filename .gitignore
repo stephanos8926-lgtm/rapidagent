@@ -1,95 +1,32 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+# Rust
+/target/
+/**/*.rs.bak
+Cargo.lock
 
-# Virtual environments
-venv/
-env/
-ENV/
+# Python
 .venv/
+*.pyc
+__pycache__/
+*.egg-info/
+dist/
+build/
 
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
-*~
-.project
-.settings/
-*.tmproj
-*.tmLanguage
-*.tmPreferences
-*.tmSession
-
-# Testing
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-htmlcov/
-coverage.xml
-.coverage
-.coverage.*
-.tox/
-.nox/
-
-# OpenSpec (if used)
-.openspec/
-openspec/
-
-# Environment variables
-.env
-.env.local
-.env.*.local
-*.env
 
 # OS
 .DS_Store
 Thumbs.db
-ehthumbs.db
-Desktop.ini
-$RECYCLE.BIN/
-.Trashes/
 
-# Node (if using JS tooling)
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-lock.yaml
-package-lock.json
+# Secrets
+*.key
+*.pem
+.env
+.env.local
 
-# TypeScript
-*.tsbuildinfo
-
-# Docker
-.docker/
-docker-compose.override.yml
-
-# Logs
+# Runtime
 *.log
 logs/
-
-# Temporary files
-tmp/
-temp/
-*.tmp
-*.temp

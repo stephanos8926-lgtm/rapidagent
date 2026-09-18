@@ -107,10 +107,43 @@ Thresholds:
 - **IF** test request succeeds → CLOSED
 - **IF** test request fails → stays OPEN
 
+## Data Persistence Requirements
+
+### R5: Warden Decision Logging
+All Warden decisions SHALL be logged with the following persistence:
+
+| Decision | Storage | Retention | Encryption |
+|----------|---------|-----------|------------|
+| ALLOW | PostgreSQL `warden_decisions` | Indefinite | Column encryption |
+| DENY | PostgreSQL `warden_decisions` | Indefinite | Column encryption |
+| TIMEOUT | PostgreSQL + JSONL journal | 30 days | File encryption |
+| CIRCUIT_OPEN | PostgreSQL `warden_decisions` | Indefinite | Column encryption |
+
+### R6: Audit Trail Integrity
+Warden decisions SHALL form a cryptographically chained audit trail:
+
+```json
+{
+  "request_id": "uuid",
+  "timestamp": "ISO8601",
+  "decision": "ALLOW|DENY|TIMEOUT|CIRCUIT_OPEN",
+  "reason": "string",
+  "prev_hash": "sha256(...)",  // Previous decision hash
+  "chain_hash": "sha256(prev_hash + timestamp + decision)"  // Tamper detection
+}
+```
+
+### R7: Secure Deletion of Transient Data
+Timeout and circuit-open decisions that are not `ALLOW` or `DENY` SHALL:
+- Be logged for compliance but may be aged out after 30 days
+- Never persist to disk as raw key material
+- Use secure deletion (`shred` or equivalent) if written temporarily
+
 ## Non-Requirements
 - The protocol SHALL NOT support async/non-blocking checks (by design)
 - The protocol SHALL NOT cache Warden decisions (each check is evaluated fresh)
 - The protocol SHALL NOT retry on Warden timeout (fail-closed)
+- The protocol SHALL NOT store raw secrets in Warden decisions (reference only)
 
 ## Design Notes
 

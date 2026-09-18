@@ -13,7 +13,8 @@ crate-type = ["cdylib"]
 rapidagent-core = { path = "../core" }
 rapidagent-ir = { path = "../ir" }
 rapidagent-renderer = { path = "../renderer" }
-# pyo3 = { workspace = true, features = ["extension-module"] }  # Uncomment for Python bindings
+rapidagent-security = { path = "../security" }
+pyo3 = { workspace = true, features = ["extension-module"] }
 serde = { workspace = true }
 serde_json = { workspace = true }
 

@@ -87,8 +87,53 @@ The system SHALL validate all envelopes against the schema before processing:
 - **WHEN** the subscriber receives the message
 - **THEN** the system SHALL reject it and emit a validation error event
 
+## Data Persistence Requirements
+
+### R5: Sensitivity Labeling
+The envelope SHALL include a `sensitivity` field for data classification:
+
+| Field | Value | Storage Tier |
+|-------|-------|--------------|
+| `public` | No protection required | All tiers |
+| `internal` | Business logic | PostgreSQL, NATS |
+| `confidential` | Requires protection | Encrypted PostgreSQL, Vault |
+| `secret` | Critical security data | Vault only, never filesystem |
+| `top-secret` | Legal/compliance | Immutable audit trail |
+
+### R6: Encryption Scope
+The envelope SHALL specify encryption requirements:
+
+- **Transport**: TLS 1.3 mandatory (NATS)
+- **At rest**: Age-encrypted JSONL for sensitive envelopes
+- **In memory**: Volatile only, no disk persistence
+
+#### Scenario: Confidential Event
+- **GIVEN** an envelope with `sensitivity: "confidential"`
+- **WHEN** published to NATS
+- **THEN** TLS encrypts in-transit
+- **WHEN** stored in JetStream
+- **THEN** AES-256-GCM encrypts at-rest via age
+
+### R7: Secure Deletion
+The envelope SHALL include `ttl_seconds` for automatic cleanup:
+
+| Sensitivity | Default TTL | Deletion Method |
+|-------------|-------------|-----------------|
+| `public` | 24h | Stream retention policy |
+| `internal` | 1h | Stream retention policy |
+| `confidential` | 10m | Secure deletion after processing |
+| `secret` | 1m | In-memory only, no disk |
+| `top-secret` | N/A | Immutable, never deleted |
+
+#### Scenario: Ephemeral Session State
+- **GIVEN** an envelope with `ttl_seconds: 60`
+- **WHEN** 60 seconds elapse
+- **THEN** NATS JetStream deletes the message automatically
+- **IF** message was never consumed
+- **THEN** secure wipe of any intermediate state
+
 ## Non-Requirements
-- The schema SHALL NOT include message encryption (handled by NATS TLS)
+- The schema SHALL NOT include message encryption details (handled by storage tier)
 - The schema SHALL NOT include compression (handled by transport)
 - The schema SHALL NOT define business logic (only structure)
 

@@ -93,16 +93,36 @@ Escalation flow:
 - **THEN** system SHALL auto-deny and log `ESCALATION_TIMEOUT`
 
 ### R4: Persistence
-The system SHALL persist interventions to:
+The system SHALL persist interventions using a **dual-tier storage strategy**:
 
-1. **Primary**: PostgreSQL `interventions` table
-2. **Secondary**: Local JSON file (`~/.rapidagent/interventions.json`)
-3. **Sync**: Background sync from local to PG when available
+#### Primary: PostgreSQL
+- Transactional integrity for intervention CRUD
+- Replication for high availability
+- Row-level security for multi-tenancy
+- Column encryption for confidential data
 
-Local journal schema (append-only):
+#### Secondary: Local JSONL Journal
+- Append-only local journal for crash recovery
+- Sync to PostgreSQL when available
+- Survives PostgreSQL outages
+
+Local journal schema (append-only, encrypted):
 ```jsonl
-{"id": "intv-abc", "created_at": "...", "status": "pending", ...}
-{"id": "intv-abc", "created_at": "...", "status": "resolved", "resolved_at": "..."}
+{"id": "intv-abc", "created_at": "...", "status": "pending", "priority": "critical", ...}
+{"id": "intv-abc", "created_at": "...", "status": "resolved", "resolved_at": "...", "action": "retry"}
+```
+
+#### Encryption at Rest
+- Local journal SHALL be encrypted with `age` using agent-specific keys
+- Keys stored in Hashicorp Vault (never on disk in plaintext)
+- PostgreSQL uses AES-256-GCM column encryption
+
+#### Sync Strategy
+```
+Local Journal ──[background sync]──► PostgreSQL
+     ▲                                  │
+     │                                  ▼
+     └────[on startup recovery]─────────┘
 ```
 
 #### Scenario: PG Outage
@@ -118,6 +138,24 @@ The system SHALL broadcast intervention updates to WebSocket clients:
 - Connect to `/ws/interventions`
 - Receive real-time updates for all interventions (tenant-scoped)
 - Support filtering by priority, status
+- All WebSocket traffic encrypted via TLS
+
+### R6: Data Classification
+Interventions SHALL be classified by sensitivity:
+
+| Priority | Sensitivity | Retention | Access |
+|----------|-------------|-----------|--------|
+| `critical` | confidential | 7 years | Admin + audit |
+| `high` | confidential | 1 year | Admin + POL |
+| `medium` | internal | 90 days | Admin |
+| `low` | internal | 30 days | Admin |
+
+### R7: Immutable Audit Trail
+Resolved interventions SHALL form a cryptographically chained audit trail:
+- Each resolution creates a new journal entry
+- Entries include `prev_hash` for tamper detection
+- Resolved interventions are append-only (no updates or deletes)
+- Only soft-delete allowed for compliance requests (logged separately)
 
 #### Scenario: Real-time Monitoring
 - **GIVEN** admin opens WebSocket connection
